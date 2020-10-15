@@ -2,15 +2,14 @@ import random
 from copy import copy, deepcopy
 
 #Function to generate a map
-def mapGen():
+def mapGen(rows,cols):
     #Initiate map with all 1 chars for regular unblocked cell
-    rows, cols = (120, 160)
-    map = [['1']*cols]*rows
+    map = [['1' for i in range(cols)] for j in range(rows)]
 
     for i in range(8):
         #Get coordinates for hard to traverse terrain area
-        x_cord = random.randint(0,119)
-        y_cord = random.randint(0,159)
+        x_cord = random.randint(0,rows-1)
+        y_cord = random.randint(0,cols-1)
 
         #Get range for the 31x31 area surrounding the coordinate. Fixes out of bounds errors
         row_start = x_cord - 15
@@ -18,16 +17,16 @@ def mapGen():
             row_start = 0
 
         row_end = x_cord + 15
-        if x_cord+15 > 119:
-            row_end = 119
+        if x_cord+15 > rows-1:
+            row_end = rows-1
 
         col_start = y_cord - 15
         if y_cord-15 < 0:
             col_start = 0
 
         col_end = y_cord + 15
-        if y_cord+15 > 159:
-            col_end = 159
+        if y_cord+15 > cols-1:
+            col_end = cols-1
 
         #Fills in hard to traverse area
         for i in range(row_start, row_end+1):
@@ -45,26 +44,26 @@ def mapGen():
         if random.randint(1,2) == 1:
             #top or bottom
             if random.randint(1,2) == 1:
-                river_x_cord = 119
-                river_y_cord = random.randint(0,158)
+                river_x_cord = rows-1
+                river_y_cord = random.randint(0,cols-2)
             else: 
                 river_x_cord = 0
-                river_y_cord = random.randint(0,158)
+                river_y_cord = random.randint(0,cols-2)
         else:
             #left or right
             if random.randint(1,2) == 1:
-                river_y_cord = 159
-                river_x_cord = random.randint(0,118)
+                river_y_cord = cols-1
+                river_x_cord = random.randint(0,rows-2)
             else: 
                 river_y_cord = 0
-                river_x_cord = random.randint(0,118)
+                river_x_cord = random.randint(0,rows-2)
         #Gets direction river will initially flow
         direction = ""
-        if river_x_cord == 119:
+        if river_x_cord == rows-1:
             direction = "up"
         elif river_x_cord == 0:
             direction = "down"
-        elif river_y_cord == 159:
+        elif river_y_cord == cols-1:
             direction = "left"
         else: 
             direction = "right"
@@ -95,7 +94,7 @@ def mapGen():
                 #Down direction
                 if direction == "down":
                     #Check if at border
-                    if tempxcord + j >= 119:
+                    if tempxcord + j >= rows-1:
                         atBorder = 0
                         break
                     #Check if hard to traverse terrain
@@ -105,7 +104,7 @@ def mapGen():
                     elif tempMap[tempxcord + j][tempycord] == '2':
                         tempMap[tempxcord + j][tempycord] = 'b'
                         river_length += 1
-                #Left direction
+                # #Left direction
                 if direction == "left":
                     #Check if at border
                     if tempycord - j <= 0:
@@ -121,7 +120,7 @@ def mapGen():
                 #Right direction
                 if direction == "right":
                     #Check if at border
-                    if tempycord + j >= 159:
+                    if tempycord + j >= cols-1:
                         atBorder = 0
                         break
                     #Check if hard to traverse terrain
@@ -138,7 +137,13 @@ def mapGen():
                 tempxcord += 20
             elif direction == "left":
                 tempycord -= 20
-            else:
+            elif direction == "right":
                 tempycord += 20
-        #print(map)
-mapGen()
+        count = 0
+        for i in range(cols):
+            for j in range(rows):
+                if tempMap[j][i] == 'a' or tempMap[j][i] == 'b':
+                    count += 1
+        print(tempMap)
+    #print(map)
+mapGen(120,160)
