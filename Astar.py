@@ -141,4 +141,5 @@ def mapGen():
             else:
                 tempycord += 20
         #print(map)
+    return map
 mapGen()
