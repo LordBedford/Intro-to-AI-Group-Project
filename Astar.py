@@ -45,18 +45,18 @@ def mapGen(rows,cols):
             #top or bottom
             if random.randint(1,2) == 1:
                 river_x_cord = rows-1
-                river_y_cord = random.randint(0,cols-2)
+                river_y_cord = random.randint(0,cols-1)
             else: 
                 river_x_cord = 0
-                river_y_cord = random.randint(0,cols-2)
+                river_y_cord = random.randint(0,cols-1)
         else:
             #left or right
             if random.randint(1,2) == 1:
                 river_y_cord = cols-1
-                river_x_cord = random.randint(0,rows-2)
+                river_x_cord = random.randint(0,rows-1)
             else: 
                 river_y_cord = 0
-                river_x_cord = random.randint(0,rows-2)
+                river_x_cord = random.randint(0,rows-1)
         #Gets direction river will initially flow
         direction = ""
         if river_x_cord == rows-1:
@@ -131,19 +131,43 @@ def mapGen(rows,cols):
                         tempMap[tempxcord][tempycord + j] = 'b'
                         river_length += 1
             #Gets coordinates for current position of river
+            #Roll for new direction and change coordinates and path accordingly
+            rand = random.randint(1,5)
             if direction == "up":
-                tempxcord -= 20
+                if rand == 1:
+                    direction = "left"
+                    tempycord -= 20
+                elif rand == 2:
+                    direction = "right"
+                    tempycord += 20
+                else:
+                    tempxcord -= 20
             elif direction == "down":
-                tempxcord += 20
+                if rand == 1:
+                    direction = "left"
+                    tempycord -= 20
+                elif rand == 2:
+                    direction = "right"
+                    tempycord += 20
+                else:
+                    tempxcord += 20
             elif direction == "left":
-                tempycord -= 20
+                if rand == 1:
+                    direction = "up"
+                    tempxcord -= 20
+                elif rand == 2:
+                    direction = "down"
+                    tempxcord += 20
+                else:
+                    tempycord -= 20
             elif direction == "right":
-                tempycord += 20
-        count = 0
-        for i in range(cols):
-            for j in range(rows):
-                if tempMap[j][i] == 'a' or tempMap[j][i] == 'b':
-                    count += 1
-        print(tempMap)
-    #print(map)
+                if rand == 1:
+                    direction = "up"
+                    tempxcord -= 20
+                elif rand == 2:
+                    direction = "down"
+                    tempxcord += 20
+                else:
+                    tempycord += 20
+    print(map)
 mapGen(120,160)
