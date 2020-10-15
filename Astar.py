@@ -35,7 +35,8 @@ def mapGen(rows,cols):
                     map[i][j] = '2'
     #Create rivers/highways
     #Get coordinates for river
-    for i in range(4):
+    rivers = 0
+    while rivers < 4:
         tempMap = deepcopy(map)
         river_x_cord = 0
         river_y_cord = 0
@@ -169,5 +170,8 @@ def mapGen(rows,cols):
                     tempxcord += 20
                 else:
                     tempycord += 20
+        if river_length >= 100:
+            rivers+= 1
+            map = deepcopy(tempMap)
     print(map)
 mapGen(120,160)
