@@ -10,7 +10,7 @@ class MapMaker:
     def __init__(self):
         self.window = Tk()
         #self.window.protocol("WM_DELETE_WINDOW", on_closing)
-        self.map = Astar.mapGen()
+        self.map = Astar.mapGen(120,160)
         self.labels = []
         self.c = Canvas(self.window, width=1500, height=1500)
         self.c.pack()

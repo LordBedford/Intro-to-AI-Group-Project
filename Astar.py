@@ -82,7 +82,7 @@ def mapGen(rows,cols):
                 #Up direction
                 if direction == "up":
                     #Check if at border
-                    if tempxcord - j <= 0:
+                    if tempxcord - j <= 0 or tempMap[tempxcord-j][tempycord] == 'a' or tempMap[tempxcord-j][tempycord] == 'b':
                         atBorder = 0
                         break
                     #Check if hard to traverse terrain
@@ -95,7 +95,7 @@ def mapGen(rows,cols):
                 #Down direction
                 if direction == "down":
                     #Check if at border
-                    if tempxcord + j >= rows-1:
+                    if tempxcord + j >= rows-1 or tempMap[tempxcord+j][tempycord] == 'a' or tempMap[tempxcord+j][tempycord] == 'b':
                         atBorder = 0
                         break
                     #Check if hard to traverse terrain
@@ -108,7 +108,7 @@ def mapGen(rows,cols):
                 # #Left direction
                 if direction == "left":
                     #Check if at border
-                    if tempycord - j <= 0:
+                    if tempycord - j <= 0 or tempMap[tempxcord][tempycord-j] == 'a' or tempMap[tempxcord][tempycord-j] == 'b':
                         atBorder = 0
                         break
                     #Check if hard to traverse terrain 
@@ -121,7 +121,7 @@ def mapGen(rows,cols):
                 #Right direction
                 if direction == "right":
                     #Check if at border
-                    if tempycord + j >= cols-1:
+                    if tempycord + j >= cols-1 or tempMap[tempxcord][tempycord+j] == 'a' or tempMap[tempxcord][tempycord+j] == 'b':
                         atBorder = 0
                         break
                     #Check if hard to traverse terrain
@@ -153,6 +153,7 @@ def mapGen(rows,cols):
                 else:
                     tempxcord += 20
             elif direction == "left":
+
                 if rand == 1:
                     direction = "up"
                     tempxcord -= 20
@@ -174,4 +175,5 @@ def mapGen(rows,cols):
             rivers+= 1
             map = deepcopy(tempMap)
     print(map)
+    return map
 mapGen(120,160)

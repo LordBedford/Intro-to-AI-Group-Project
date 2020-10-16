@@ -6,4 +6,3 @@ run = True
 map = MapMaker()
 while(run):
    MapMaker.updatewindow(map)
-
