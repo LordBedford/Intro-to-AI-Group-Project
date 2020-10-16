@@ -8,7 +8,7 @@ class MapMaker:
     def __init__(self):
         self.window = Tk()
         # self.window.protocol("WM_DELETE_WINDOW", on_closing)
-        self.map = Astar.mapGen()
+        self.map = Astar.mapGen(120,160)
         self.labels = []
         self.c = Canvas(self.window, width=1000, height=800)
         self.c.pack()
@@ -18,7 +18,7 @@ class MapMaker:
 
     def updatewindow(self):
         print("New MAP!")
-        self.map = Astar.mapGen()
+        self.map = Astar.mapGen(120,160)
         for i in range(len(self.map)):
             for j in range(len(self.map[i])):
 
