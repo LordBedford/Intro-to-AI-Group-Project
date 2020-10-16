@@ -1,5 +1,6 @@
 from tkinter import *
 import random
+import numpy as np
 import Astar
 
 
@@ -10,11 +11,14 @@ class MapMaker:
         # self.window.protocol("WM_DELETE_WINDOW", on_closing)
         self.map = Astar.mapGen(120,160)
         self.labels = []
-        self.c = Canvas(self.window, width=1000, height=800)
+        self.c = Canvas(self.window, width=1500, height=900)
         self.c.pack()
         self.colors = ["black", "green", "orange", "blue", "red"]
         self.button = Button(self.window, text='New Map', width=50, command =self.updatewindow)
+        self.button2 = Button(self.window, text='Save', width=50, command=self.save)
         self.button.pack(side="bottom")
+        self.button2.pack(side="right")
+        self.saves = 0
         print("what")
 
     def updatewindow(self):
@@ -30,5 +34,14 @@ class MapMaker:
 
     def tick(self):
         self.window.update()
+
+    def save(self):
+
+        np.savetxt("maps.txt",self.map, fmt='%s')
+        self.saves += 1
+        print("Saved!")
+        for i in range(len(self.map)):
+            for j in range(len(self.map[i])):
+                print(self.map[i][j])
 
 
