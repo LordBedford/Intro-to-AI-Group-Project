@@ -8,19 +8,18 @@ class MapMaker:
     def __init__(self):
         self.window = Tk()
         # self.window.protocol("WM_DELETE_WINDOW", on_closing)
-        self.map = Astar.mapGen(rows = 50, cols = 50)
-        print("wave")
+        self.map = Astar.mapGen(120,160)
         self.labels = []
         self.c = Canvas(self.window, width=1000, height=800)
         self.c.pack()
-        self.colors = ["blue", "red", "pink", "green", "orange"]
+        self.colors = ["black", "green", "orange", "blue", "red"]
         self.button = Button(self.window, text='New Map', width=50, command =self.updatewindow)
         self.button.pack(side="bottom")
         print("what")
 
     def updatewindow(self):
         print("New MAP!")
-        self.map = Astar.mapGen(rows = 50, cols = 50)
+        self.map = Astar.mapGen(120,160)
         for i in range(len(self.map)):
             for j in range(len(self.map[i])):
 
