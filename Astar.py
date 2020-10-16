@@ -176,4 +176,5 @@ def mapGen(rows,cols):
             map = deepcopy(tempMap)
     print(map)
     return map
+
 mapGen(120,160)
