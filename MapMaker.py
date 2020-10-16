@@ -12,10 +12,9 @@ class MapMaker:
         self.labels = []
         self.c = Canvas(self.window, width=1000, height=800)
         self.c.pack()
-        self.colors = ["black", "green", "orange", "blue", "red"]
+        self.colors = ["black", "green", "orange", "blue", "white"]
         self.button = Button(self.window, text='New Map', width=50, command =self.updatewindow)
         self.button.pack(side="bottom")
-        print("what")
 
     def updatewindow(self):
         print("New MAP!")

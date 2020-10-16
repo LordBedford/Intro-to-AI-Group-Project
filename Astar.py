@@ -36,7 +36,8 @@ def mapGen(rows,cols):
     #Create rivers/highways
     #Get coordinates for river
     rivers = 0
-    while rivers < 4:
+    limit = 0
+    while rivers < 4 and limit < 100:
         tempMap = deepcopy(map)
         river_x_cord = 0
         river_y_cord = 0
@@ -76,15 +77,19 @@ def mapGen(rows,cols):
 
         #Fill in river
         atBorder = 1
+        hit_river = 0
         while atBorder:
             #Traverse 20 spaces
+            counter = 0
             for j in range(20):
                 #Up direction
                 if direction == "up":
-                    #Check if at border
-                    if tempxcord - j <= 0 or tempMap[tempxcord-j][tempycord] == '3' or tempMap[tempxcord-j][tempycord] == '4':
+                    if tempxcord - j < 0:
                         atBorder = 0
                         break
+                    counter += 1
+                    if tempMap[tempxcord-j][tempycord] == '3' or tempMap[tempxcord-j][tempycord] == '4':
+                        hit_river = 1
                     #Check if hard to traverse terrain
                     if tempMap[tempxcord - j][tempycord] == '1':
                         tempMap[tempxcord - j][tempycord] = '3'
@@ -94,10 +99,12 @@ def mapGen(rows,cols):
                         river_length += 1
                 #Down direction
                 if direction == "down":
-                    #Check if at border
-                    if tempxcord + j >= rows-1 or tempMap[tempxcord+j][tempycord] == '3' or tempMap[tempxcord+j][tempycord] == '4':
+                    if tempxcord + j > rows-1:
                         atBorder = 0
                         break
+                    counter += 1
+                    if tempMap[tempxcord+j][tempycord] == '3' or tempMap[tempxcord+j][tempycord] == '4':
+                        hit_river = 1
                     #Check if hard to traverse terrain
                     if tempMap[tempxcord + j][tempycord] == '1':
                         tempMap[tempxcord + j][tempycord] = '3'
@@ -107,10 +114,12 @@ def mapGen(rows,cols):
                         river_length += 1
                 # #Left direction
                 if direction == "left":
-                    #Check if at border
-                    if tempycord - j <= 0 or tempMap[tempxcord][tempycord-j] == '3' or tempMap[tempxcord][tempycord-j] == '4':
+                    if tempycord - j < 0:
                         atBorder = 0
                         break
+                    counter += 1
+                    if tempMap[tempxcord][tempycord-j] == '3' or tempMap[tempxcord][tempycord-j] == '4':
+                        hit_river = 1
                     #Check if hard to traverse terrain 
                     if tempMap[tempxcord][tempycord - j] == '1':
                         tempMap[tempxcord][tempycord - j] = '3'
@@ -120,10 +129,12 @@ def mapGen(rows,cols):
                         river_length += 1
                 #Right direction
                 if direction == "right":
-                    #Check if at border
-                    if tempycord + j >= cols-1 or tempMap[tempxcord][tempycord+j] == '3' or tempMap[tempxcord][tempycord+j] == '4':
+                    if tempycord + j > cols-1:
                         atBorder = 0
                         break
+                    counter += 1
+                    if tempMap[tempxcord][tempycord+j] == '3' or tempMap[tempxcord][tempycord+j] == '4':
+                        hit_river = 1
                     #Check if hard to traverse terrain
                     if tempMap[tempxcord][tempycord + j] == '1':
                         tempMap[tempxcord][tempycord + j] = '3'
@@ -135,46 +146,34 @@ def mapGen(rows,cols):
             #Roll for new direction and change coordinates and path accordingly
             rand = random.randint(1,5)
             if direction == "up":
+                tempxcord -= counter
                 if rand == 1:
                     direction = "left"
-                    tempycord -= 20
                 elif rand == 2:
                     direction = "right"
-                    tempycord += 20
-                else:
-                    tempxcord -= 20
             elif direction == "down":
+                tempxcord += counter
                 if rand == 1:
                     direction = "left"
-                    tempycord -= 20
                 elif rand == 2:
                     direction = "right"
-                    tempycord += 20
-                else:
-                    tempxcord += 20
             elif direction == "left":
-
+                tempycord -= counter
                 if rand == 1:
                     direction = "up"
-                    tempxcord -= 20
                 elif rand == 2:
                     direction = "down"
-                    tempxcord += 20
-                else:
-                    tempycord -= 20
             elif direction == "right":
+                tempycord += counter
                 if rand == 1:
                     direction = "up"
-                    tempxcord -= 20
                 elif rand == 2:
                     direction = "down"
-                    tempxcord += 20
-                else:
-                    tempycord += 20
-        if river_length >= 100:
-            rivers+= 1
+            if tempycord < 0 or tempycord > cols-1 or tempxcord < 0 or tempxcord > rows-1:
+                atBorder = 0
+        if river_length >= 100 and hit_river != 1 and atBorder == 0:
+            rivers += 1
             map = deepcopy(tempMap)
-    #print(map)
+        limit += 1
     return map
-
 mapGen(120,160)
