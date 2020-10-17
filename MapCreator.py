@@ -222,25 +222,25 @@ def mapGen(rows,cols):
             end_x_cord = random.randint(0,rows-1)
             end_y_cord = random.randint(0,20)
             if map[end_x_cord][end_y_cord] != '0':
-                map[end_x_cord][end_y_cord] = '5'
+                map[end_x_cord][end_y_cord] = '6'
                 break
         elif rand == 2:
             end_x_cord = random.randint(0,20)
             end_y_cord = random.randint(0,cols-1)
             if map[end_x_cord][end_y_cord] != '0':
-                map[end_x_cord][end_y_cord] = '5'
+                map[end_x_cord][end_y_cord] = '6'
                 break
         elif rand == 3:
             end_x_cord = random.randint(0,rows-1)
             end_y_cord = random.randint(cols-21,cols-1)
             if map[end_x_cord][end_y_cord] != '0':
-                map[end_x_cord][end_y_cord] = '5'
+                map[end_x_cord][end_y_cord] = '6'
                 break
         else:
             end_x_cord = random.randint(rows-21,rows-1)
             end_y_cord = random.randint(0,cols-1)
             if map[end_x_cord][end_y_cord] != '0':
-                map[end_x_cord][end_y_cord] = '5'
+                map[end_x_cord][end_y_cord] = '6'
                 break
     return map
 mapGen(120,160)
