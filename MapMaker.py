@@ -13,7 +13,7 @@ class MapMaker:
         self.labels = []
         self.c = Canvas(self.window, width=1500, height=900)
         self.c.pack()
-        self.colors = ["black", "green", "orange", "blue", "white"]
+        self.colors = ["black", "green", "orange", "blue", "white", "yellow", "red"]
         self.button = Button(self.window, text='New Map', width=50, command =self.updatewindow)
         self.button2 = Button(self.window, text='Save', width=50, command=self.save)
         self.button.pack(side="bottom")
