@@ -86,6 +86,6 @@ def astar(map):
 
 def add_open(open, neighbor):
     for node in open:
-        if neighbor == node and nSSSSSeighbor.f >= node.f:
+        if neighbor == node and neighbor.f >= node.f:
             return False
     return True
