@@ -22,7 +22,7 @@ class Node:
 
     # Print node
     def __repr__(self):
-        return ('({0},{1})'.format(self.position, self.f))
+        return '({0},{1})'.format(self.position, self.f)
 
 
 # A*
@@ -69,28 +69,43 @@ def a_star(map):
             map_value = map.get(next)
 
             # Check if the node is impassable terrain
-            if (map_value == '0'):
+            if map_value == '0':
                 continue
 
             neighbor = Node(next, current_node)
             # Check if the neighbor is in the closed list
-            if (neighbor in closed):
+            if neighbor in closed:
                 continue
 
-            # Both nodes are easy to traverse
-            if map_value == '1' and parent_value == '1':
-                # Moving vertically or horizontally
-                if neighbor.position == (x - 1, y) or \
-                        neighbor.position == (x + 1, y) or \
-                        neighbor.position == (x, y - 1) or \
-                        neighbor.position == (x, y + 1):
+            # Using Diagonal distance heuristic
 
-                    # Diagonal Distance heuristic
-                    # Neighbor.g is the current cost from start node + 1
-                    neighbor.g = current_node.g + 1
-                    neighbor.h = math.sqrt((neighbor.position[0] - goal_node.position[0]) ** 2 + (
+            # Both nodes are easy to traverse
+            if (map_value == '1' and parent_value == '1') or \
+                    (map_value == '1' and parent_value == '3') or \
+                    (map_value == '3' and parent_value == '1') or \
+                    (map_value == '3' and parent_value == '3'):
+
+                # Moving vertically or horizontally
+                if (neighbor.position == (x - 1, y)) or \
+                        (neighbor.position == (x + 1, y)) or \
+                        (neighbor.position == (x, y - 1)) or \
+                        (neighbor.position == (x, y + 1)):
+
+                    # Both nodes are on a highway
+                    if map_value == '3' and parent_value == '3':
+                        # Neighbor.g is current cost from start node + .25for 2 easy to traverse nodes
+                        neighbor.g = current_node.g + .25
+                        neighbor.h = math.sqrt((neighbor.position[0] - goal_node.position[0]) ** 2 + (
                                 neighbor.position[1] - goal_node.position[1]) ** 2)
-                    neighbor.f = neighbor.g + neighbor.h
+                        neighbor.f = neighbor.g + neighbor.h
+
+                    # No highway
+                    else:
+                        # Neighbor.g is the current cost from start node + 1
+                        neighbor.g = current_node.g + 1
+                        neighbor.h = math.sqrt((neighbor.position[0] - goal_node.position[0]) ** 2 + (
+                                neighbor.position[1] - goal_node.position[1]) ** 2)
+                        neighbor.f = neighbor.g + neighbor.h
 
                 #  Moving diagonally
                 else:
@@ -101,18 +116,37 @@ def a_star(map):
                     neighbor.f = neighbor.g + neighbor.h
 
             # One node is easy to traverse while one is hard
-            elif map_value == '1' and parent_value == '2' or map_value == '2' and map_value == '1':
-                # Moving vertically or horizontally
-                if neighbor.position == (x - 1, y) or \
-                        neighbor.position == (x + 1, y) or \
-                        neighbor.position == (x, y - 1) or \
-                        neighbor.position == (x, y + 1):
+            elif (map_value == '1' and parent_value == '2') or \
+                    (map_value == '1' and parent_value == '4') or \
+                    (map_value == '2' and parent_value == '1') or \
+                    (map_value == '2' and parent_value == '3') or \
+                    (map_value == '3' and parent_value == '2') or \
+                    (map_value == '3' and parent_value == '4') or \
+                    (map_value == '4' and parent_value == '1') or \
+                    (map_value == '4' and parent_value == '3'):
 
-                    # Neighbor.g is the current cost from start node + 1.5
-                    neighbor.g = current_node.g + 1.5
-                    neighbor.h = math.sqrt((neighbor.position[0] - goal_node.position[0]) ** 2 + (
-                            neighbor.position[1] - goal_node.position[1]) ** 2)
-                    neighbor.f = neighbor.g + neighbor.h
+                # Moving vertically or horizontally
+                if (neighbor.position == (x - 1, y)) or \
+                        (neighbor.position == (x + 1, y)) or \
+                        (neighbor.position == (x, y - 1)) or \
+                        (neighbor.position == (x, y + 1)):
+
+                    # Both nodes are on a highway
+                    if (map_value == '4' and parent_value == '3') or \
+                            (map_value == '3' and parent_value == '4'):
+                        # Neighbor.g is current cost from start node + .375 for 1 hard and 1 regular cell
+                        neighbor.g = current_node.g + .375
+                        neighbor.h = math.sqrt((neighbor.position[0] - goal_node.position[0]) ** 2 + (
+                                neighbor.position[1] - goal_node.position[1]) ** 2)
+                        neighbor.f = neighbor.g + neighbor.h
+
+                    # No highway
+                    else:
+                        # Neighbor.g is the current cost from start node + 1.5
+                        neighbor.g = current_node.g + 1.5
+                        neighbor.h = math.sqrt((neighbor.position[0] - goal_node.position[0]) ** 2 + (
+                                neighbor.position[1] - goal_node.position[1]) ** 2)
+                        neighbor.f = neighbor.g + neighbor.h
 
                 else:
                     # Moving diagonally
@@ -123,18 +157,31 @@ def a_star(map):
                     neighbor.f = neighbor.g + neighbor.h
 
             # Both nodes are hard to traverse
-            elif map_value == '2' and parent_value == '2':
-                if neighbor.position == (x - 1, y) or \
-                        neighbor.position == (x + 1, y) or \
-                        neighbor.position == (x, y - 1) or \
-                        neighbor.position == (x, y + 1):
+            elif (map_value == '2' and parent_value == '2') or \
+                    (map_value == '2' and parent_value == '4') or \
+                    (map_value == '4' and parent_value == '2') or \
+                    (map_value == '4' and parent_value == '4'):
 
-                    # Moving vertically or horizontally
-                    # Neighbor.g is the current cost from start node + 2
-                    neighbor.g = current_node.g + 2
-                    neighbor.h = math.sqrt((neighbor.position[0] - goal_node.position[0]) ** 2 + (
-                            neighbor.position[1] - goal_node.position[1]) ** 2)
-                    neighbor.f = neighbor.g + neighbor.h
+                # Moving vertically or horizontally
+                if (neighbor.position == (x - 1, y)) or \
+                        (neighbor.position == (x + 1, y)) or \
+                        (neighbor.position == (x, y - 1)) or \
+                        (neighbor.position == (x, y + 1)):
+
+                    # Both nodes are on a highway
+                    if map_value == '4' and parent_value == '4':
+                        # Neighbor.g is current cost from start node + .5 for 2 hard cells
+                        neighbor.g = current_node.g + .5
+                        neighbor.h = math.sqrt((neighbor.position[0] - goal_node.position[0]) ** 2 + (
+                                neighbor.position[1] - goal_node.position[1]) ** 2)
+                        neighbor.f = neighbor.g + neighbor.h
+
+                    else:
+                        # Neighbor.g is the current cost from start node + 2
+                        neighbor.g = current_node.g + 2
+                        neighbor.h = math.sqrt((neighbor.position[0] - goal_node.position[0]) ** 2 + (
+                                neighbor.position[1] - goal_node.position[1]) ** 2)
+                        neighbor.f = neighbor.g + neighbor.h
 
                 else:
                     # Moving Diagonally
@@ -145,11 +192,11 @@ def a_star(map):
                     neighbor.f = neighbor.g + neighbor.h
 
             # Check if neighbor is in open list and if it has a lower f value
-            if (add_open(open, neighbor) == True):
+            if add_open(open, neighbor):
                 # Everything is green, add neighbor to open list
                 open.append(neighbor)
-    # Return None, no path is found
-    return None
+            # Return None, no path is found
+        return None
 
 
 # Weighted A*
@@ -199,28 +246,43 @@ def weighted_a_star(map):
             map_value = map.get(next)
 
             # Check if the node is impassable terrain
-            if (map_value == '0'):
+            if map_value == '0':
                 continue
 
             neighbor = Node(next, current_node)
             # Check if the neighbor is in the closed list
-            if (neighbor in closed):
+            if neighbor in closed:
                 continue
 
-            # Both nodes are easy to traverse
-            if map_value == '1' and parent_value == '1':
-                # Moving vertically or horizontally
-                if neighbor.position == (x - 1, y) or \
-                        neighbor.position == (x + 1, y) or \
-                        neighbor.position == (x, y - 1) or \
-                        neighbor.position == (x, y + 1):
+            # Using Diagonal distance heuristic
 
-                    # Diagonal Distance heuristic
-                    # Neighbor.g is the current cost from start node + 1
-                    neighbor.g = current_node.g + 1
-                    neighbor.h = math.sqrt((neighbor.position[0] - goal_node.position[0]) ** 2 + (
+            # Both nodes are easy to traverse
+            if (map_value == '1' and parent_value == '1') or \
+                    (map_value == '1' and parent_value == '3') or \
+                    (map_value == '3' and parent_value == '1') or \
+                    (map_value == '3' and parent_value == '3'):
+
+                # Moving vertically or horizontally
+                if (neighbor.position == (x - 1, y)) or \
+                        (neighbor.position == (x + 1, y)) or \
+                        (neighbor.position == (x, y - 1)) or \
+                        (neighbor.position == (x, y + 1)):
+
+                    # Both nodes are on a highway
+                    if map_value == '3' and parent_value == '3':
+                        # Neighbor.g is current cost from start node + .25for 2 easy to traverse nodes
+                        neighbor.g = current_node.g + .25
+                        neighbor.h = math.sqrt((neighbor.position[0] - goal_node.position[0]) ** 2 + (
                                 neighbor.position[1] - goal_node.position[1]) ** 2)
-                    neighbor.f = neighbor.g + (weight * neighbor.h)
+                        neighbor.f = neighbor.g + (weight * neighbor.h)
+
+                    # No highway
+                    else:
+                        # Neighbor.g is the current cost from start node + 1
+                        neighbor.g = current_node.g + 1
+                        neighbor.h = math.sqrt((neighbor.position[0] - goal_node.position[0]) ** 2 + (
+                                neighbor.position[1] - goal_node.position[1]) ** 2)
+                        neighbor.f = neighbor.g + (weight * neighbor.h)
 
                 #  Moving diagonally
                 else:
@@ -231,18 +293,37 @@ def weighted_a_star(map):
                     neighbor.f = neighbor.g + (weight * neighbor.h)
 
             # One node is easy to traverse while one is hard
-            elif map_value == '1' and parent_value == '2' or map_value == '2' and map_value == '1':
-                # Moving vertically or horizontally
-                if neighbor.position == (x - 1, y) or \
-                        neighbor.position == (x + 1, y) or \
-                        neighbor.position == (x, y - 1) or \
-                        neighbor.position == (x, y + 1):
+            elif (map_value == '1' and parent_value == '2') or \
+                    (map_value == '1' and parent_value == '4') or \
+                    (map_value == '2' and parent_value == '1') or \
+                    (map_value == '2' and parent_value == '3') or \
+                    (map_value == '3' and parent_value == '2') or \
+                    (map_value == '3' and parent_value == '4') or \
+                    (map_value == '4' and parent_value == '1') or \
+                    (map_value == '4' and parent_value == '3'):
 
-                    # Neighbor.g is the current cost from start node + 1.5
-                    neighbor.g = current_node.g + 1.5
-                    neighbor.h = math.sqrt((neighbor.position[0] - goal_node.position[0]) ** 2 + (
-                            neighbor.position[1] - goal_node.position[1]) ** 2)
-                    neighbor.f = neighbor.g + (weight * neighbor.h)
+                # Moving vertically or horizontally
+                if (neighbor.position == (x - 1, y)) or \
+                        (neighbor.position == (x + 1, y)) or \
+                        (neighbor.position == (x, y - 1)) or \
+                        (neighbor.position == (x, y + 1)):
+
+                    # Both nodes are on a highway
+                    if (map_value == '4' and parent_value == '3') or \
+                            (map_value == '3' and parent_value == '4'):
+                        # Neighbor.g is current cost from start node + .375 for 1 hard and 1 regular cell
+                        neighbor.g = current_node.g + .375
+                        neighbor.h = math.sqrt((neighbor.position[0] - goal_node.position[0]) ** 2 + (
+                                neighbor.position[1] - goal_node.position[1]) ** 2)
+                        neighbor.f = neighbor.g + (weight * neighbor.h)
+
+                    # No highway
+                    else:
+                        # Neighbor.g is the current cost from start node + 1.5
+                        neighbor.g = current_node.g + 1.5
+                        neighbor.h = math.sqrt((neighbor.position[0] - goal_node.position[0]) ** 2 + (
+                                 neighbor.position[1] - goal_node.position[1]) ** 2)
+                        neighbor.f = neighbor.g + (weight * neighbor.h)
 
                 else:
                     # Moving diagonally
@@ -253,18 +334,31 @@ def weighted_a_star(map):
                     neighbor.f = neighbor.g + (weight * neighbor.h)
 
             # Both nodes are hard to traverse
-            elif map_value == '2' and parent_value == '2':
-                if neighbor.position == (x - 1, y) or \
-                        neighbor.position == (x + 1, y) or \
-                        neighbor.position == (x, y - 1) or \
-                        neighbor.position == (x, y + 1):
+            elif (map_value == '2' and parent_value == '2') or \
+                    (map_value == '2' and parent_value == '4') or \
+                    (map_value == '4' and parent_value == '2') or \
+                    (map_value == '4' and parent_value == '4'):
 
-                    # Moving vertically or horizontally
-                    # Neighbor.g is the current cost from start node + 2
-                    neighbor.g = current_node.g + 2
-                    neighbor.h = math.sqrt((neighbor.position[0] - goal_node.position[0]) ** 2 + (
-                            neighbor.position[1] - goal_node.position[1]) ** 2)
-                    neighbor.f = neighbor.g + (weight * neighbor.h)
+                # Moving vertically or horizontally
+                if (neighbor.position == (x - 1, y)) or \
+                        (neighbor.position == (x + 1, y)) or \
+                        (neighbor.position == (x, y - 1)) or \
+                        (neighbor.position == (x, y + 1)):
+
+                    # Both nodes are on a highway
+                    if map_value == '4' and parent_value == '4':
+                        # Neighbor.g is current cost from start node + .5 for 2 hard cells
+                        neighbor.g = current_node.g + .5
+                        neighbor.h = math.sqrt((neighbor.position[0] - goal_node.position[0]) ** 2 + (
+                                neighbor.position[1] - goal_node.position[1]) ** 2)
+                        neighbor.f = neighbor.g + (weight * neighbor.h)
+
+                    else:
+                        # Neighbor.g is the current cost from start node + 2
+                        neighbor.g = current_node.g + 2
+                        neighbor.h = math.sqrt((neighbor.position[0] - goal_node.position[0]) ** 2 + (
+                                neighbor.position[1] - goal_node.position[1]) ** 2)
+                        neighbor.f = neighbor.g + (weight * neighbor.h)
 
                 else:
                     # Moving Diagonally
@@ -275,7 +369,7 @@ def weighted_a_star(map):
                     neighbor.f = neighbor.g + (weight * neighbor.h)
 
             # Check if neighbor is in open list and if it has a lower f value
-            if (add_open(open, neighbor) == True):
+            if add_open(open, neighbor):
                 # Everything is green, add neighbor to open list
                 open.append(neighbor)
     # Return None, no path is found
