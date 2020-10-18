@@ -41,9 +41,6 @@ def a_star(map, start, goal):
     count = 0
     # Loop until the open list is empty
     while len(open) > 0:
-        count = count + 1
-        print("COUNT")
-        print(count)
         # Sort open list to find lowest cost node and add it it closed list
         open.sort()
         current_node = open.pop(0)
@@ -61,10 +58,7 @@ def a_star(map, start, goal):
         (x, y) = current_node.position
         # Map value at the current node
         parent_value = map[x][y]
-        print("PARENT")
-        print(parent_value)
-        print(x)
-        print(y)
+
         # Get 8 neighbors
         neighbors = [(x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1), (x + 1, y + 1), (x + 1, y - 1), (x - 1, y + 1),
                      (x - 1, y - 1)]
@@ -75,19 +69,13 @@ def a_star(map, start, goal):
 
             # Map value of neighbor
             map_value = map[neighbor.position[0]][neighbor.position[1]]
-            print("Neighbor")
-            print(map_value)
-            print(neighbor.position[0])
-            print(neighbor.position[1])
 
             # Check if the node is impassable terrain
             if map_value == '0':
-                print("neighbor is wall")
                 continue
 
             # Check if the neighbor is in the closed list
             if neighbor in closed:
-                print("neighbor in closed")
                 continue
 
             # Using Diagonal distance heuristic
@@ -205,23 +193,16 @@ def a_star(map, start, goal):
                     neighbor.f = neighbor.g + neighbor.h
 
             # Check if neighbor is in open list and if it has a lower f value
-            print("BEFORE APPEND")
-            print(neighbor.g)
-            print(neighbor.h)
-            print(neighbor.f)
             if add_open(open, neighbor):
                 # Everything is green, add neighbor to open list
-                print("ADDED TO OPEN")
                 open.append(neighbor)
-            # Return None, no path is found
-
+    # Return None, no path is found
     return None
 
 
 # Weighted A*
 # Takes in the map and the start and goal points and a weight
 def weighted_a_star(map, start, goal, weight):
-    path = []
     # Lists for open and closed nodes
     open = []
     closed = []
@@ -233,6 +214,7 @@ def weighted_a_star(map, start, goal, weight):
     # Add start node to open list
     open.append(start_node)
 
+    count = 0
     # Loop until the open list is empty
     while len(open) > 0:
         # Sort open list to find lowest cost node and add it it closed list
@@ -251,21 +233,23 @@ def weighted_a_star(map, start, goal, weight):
 
         (x, y) = current_node.position
         # Map value at the current node
-        parent_value = map.get(current_node)
+        parent_value = map[x][y]
 
         # Get 8 neighbors
         neighbors = [(x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1), (x + 1, y + 1), (x + 1, y - 1), (x - 1, y + 1),
                      (x - 1, y - 1)]
 
         for next in neighbors:
+
+            neighbor = Node(next, current_node)
+
             # Map value of neighbor
-            map_value = map.get(next)
+            map_value = map[neighbor.position[0]][neighbor.position[1]]
 
             # Check if the node is impassable terrain
             if map_value == '0':
                 continue
 
-            neighbor = Node(next, current_node)
             # Check if the neighbor is in the closed list
             if neighbor in closed:
                 continue
@@ -389,7 +373,8 @@ def weighted_a_star(map, start, goal, weight):
                 # Everything is green, add neighbor to open list
                 open.append(neighbor)
     # Return None, no path is found
-    return path
+    return None
+
 
 
 def add_open(open, neighbor):
