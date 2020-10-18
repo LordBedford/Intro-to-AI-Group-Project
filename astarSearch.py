@@ -25,7 +25,7 @@ class Node:
 
 
 # A*
-# Takes in the map and start and goal points
+# Takes in the map and start and goal points, and max x and y values for the map
 def a_star(map, start, goal, x_max, y_max):
     # Lists for open and closed nodes
     open = []
@@ -64,6 +64,7 @@ def a_star(map, start, goal, x_max, y_max):
                      (x - 1, y - 1)]
 
         for next in neighbors:
+            # Checks to see if neighbors are valid
             if next[0] < 0 or \
                     next[1] < 0 or \
                     next[0] >= x_max or \
@@ -205,7 +206,7 @@ def a_star(map, start, goal, x_max, y_max):
 
 
 # Weighted A*
-# Takes in the map and the start and goal points and a weight
+# Takes in the map and the start and goal points, a weight, and max x and y values for the map
 def weighted_a_star(map, start, goal, weight, x_max, y_max):
     # Lists for open and closed nodes
     open = []
@@ -244,6 +245,7 @@ def weighted_a_star(map, start, goal, weight, x_max, y_max):
                      (x - 1, y - 1)]
 
         for next in neighbors:
+            # Checks to see if neighbor is valid
             if next[0] < 0 or \
                     next[1] < 0 or \
                     next[0] >= x_max or \
