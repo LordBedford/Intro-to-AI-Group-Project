@@ -62,11 +62,14 @@ def getCoordinates(map):
 def mapGen(rows,cols):
     #Initiate map with all 1 chars for regular unblocked cell
     map = [['1' for i in range(cols)] for j in range(rows)]
+    HTTList = []
 
     for i in range(8):
         #Get coordinates for hard to traverse terrain area
         x_cord = random.randint(0,rows-1)
         y_cord = random.randint(0,cols-1)
+
+        HTTList.append( (x_cord,y_cord) )
 
         #Get range for the 31x31 area surrounding the coordinate. Fixes out of bounds errors
         row_start = x_cord - 15
@@ -242,5 +245,5 @@ def mapGen(rows,cols):
         if map[x_cord][y_cord] != '3' and map[x_cord][y_cord] != '4' and map[x_cord][y_cord] != '0':
             map[x_cord][y_cord] = '0'
             imp += 1
-    return map
+    return map, HTTList
 mapGen(120,160)

@@ -67,7 +67,7 @@ class MapMaker:
 
     def newMap(self):
         print("NEW MAP!")
-        self.map = MapCreator.mapGen(120, 160)
+        self.map = MapCreator.mapGen(120, 160)[0]
         for i in range(len(self.map)):
             for j in range(len(self.map[i])):
                 (self.c.create_rectangle(5 * (i + 2), 5 * (j + 8), 5 * (i + 3), 5 * (j + 9),

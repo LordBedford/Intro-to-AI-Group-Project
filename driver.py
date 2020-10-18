@@ -1,4 +1,5 @@
 from MapMaker import *
+from astarSearch import *
 #Drive class
 
 run = True
