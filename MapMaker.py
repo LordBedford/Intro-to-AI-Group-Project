@@ -15,15 +15,17 @@ class MapMaker:
         self.labels = []
         self.c = Canvas(self.window, width=1500, height=900)
         self.c.pack()
-        self.colors = ["black", "green", "orange", "blue", "white", "yellow", "red"]
+        self.colors = ["black", "green", "orange", "blue", "white", "purple", "red"]
         self.button = Button(self.window, text='New Map', width=25, command=self.newMap)
         #self.button2 = Button(self.window, text='Save', width=25, command=self.save)
-        self.button3 = Button(self.window, text='Load Map Number ->', width=25, command=self.load)
+        self.button3 = Button(self.window, text='Load Map type and number ->', width=25, command=self.load)
         self.button.place(x=0, y=0)
         #self.button2.place(x=200, y=0)
         self.button3.place(x=400, y=0)
         self.loadbox = Text(self.window, height = 1, width = 25)
         self.loadbox.place(x=600,y=0)
+        self.loadbox2 = Text(self.window, height=1, width=25)
+        self.loadbox2.place(x=800, y=0)
         self.savefile = open("maps.txt", 'ab')
 
         self.saves = 0
@@ -50,19 +52,22 @@ class MapMaker:
         self.saves = self.saves + 1
 
     def load(self):
-        getMap = (self.loadbox.get("1.0","end"))
+        getType = (self.loadbox.get("1.0","end"))
+        getType = int(getType.strip())
+        getMap = (self.loadbox2.get("1.0", "end"))
         getMap = int(getMap.strip())
         print(getMap)
         tempCol = []
-        tempFile = open("maps/map%s.txt" % (getMap-1), 'r')
+        tempFile = open("maps/map%s/map%s.txt" % (getType-1,getMap-1), 'r')
         i = 1
         for lines in tempFile.readlines():
-            lines = lines.strip()
-            tempRow = []
-            for num in lines:
-                if not (num == ' '):
-                    tempRow.append(num)
-            tempCol.append(tempRow)
+            if i > 10:
+                lines = lines.strip()
+                tempRow = []
+                for num in lines:
+                    if not (num == ' '):
+                        tempRow.append(num)
+                tempCol.append(tempRow)
 
             i += 1
 
