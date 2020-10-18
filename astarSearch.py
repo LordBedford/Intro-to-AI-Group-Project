@@ -26,7 +26,7 @@ class Node:
 
 # A*
 # Takes in the map and start and goal points
-def a_star(map, start, goal):
+def a_star(map, start, goal, x_max, y_max):
     # Lists for open and closed nodes
     open = []
     closed = []
@@ -64,7 +64,11 @@ def a_star(map, start, goal):
                      (x - 1, y - 1)]
 
         for next in neighbors:
-
+            if next[0] < 0 or \
+                    next[1] < 0 or \
+                    next[0] >= x_max or \
+                    next[1] >= y_max:
+                continue
             neighbor = Node(next, current_node)
 
             # Map value of neighbor
@@ -202,7 +206,7 @@ def a_star(map, start, goal):
 
 # Weighted A*
 # Takes in the map and the start and goal points and a weight
-def weighted_a_star(map, start, goal, weight):
+def weighted_a_star(map, start, goal, weight, x_max, y_max):
     # Lists for open and closed nodes
     open = []
     closed = []
@@ -240,6 +244,11 @@ def weighted_a_star(map, start, goal, weight):
                      (x - 1, y - 1)]
 
         for next in neighbors:
+            if next[0] < 0 or \
+                    next[1] < 0 or \
+                    next[0] >= x_max or \
+                    next[1] >= y_max:
+                continue
 
             neighbor = Node(next, current_node)
 
@@ -376,10 +385,8 @@ def weighted_a_star(map, start, goal, weight):
     return None
 
 
-
 def add_open(open, neighbor):
     for node in open:
         if neighbor == node and neighbor.f >= node.f:
             return False
     return True
-
