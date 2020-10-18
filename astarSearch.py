@@ -198,14 +198,11 @@ def a_star(map, start, goal):
 
 
 # Weighted A*
-# Takes in the map and the start and goal points
-def weighted_a_star(map, start, goal):
+# Takes in the map and the start and goal points and a weight
+def weighted_a_star(map, start, goal, weight):
     # Lists for open and closed nodes
     open = []
     closed = []
-
-    # Define weight
-    weight = 1.5
 
     # Create a start and goal node
     start_node = Node(start, None)
