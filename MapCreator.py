@@ -53,8 +53,8 @@ def getCoordinates(map):
                 if map[end_x_cord][end_y_cord] != '0':
                     break
         if abs(start_x_cord - end_x_cord) > 100 or abs(start_y_cord - end_y_cord) > 100:
-            map[start_x_cord][start_y_cord] = '5'
-            map[end_x_cord][end_y_cord] = '6'
+            #map[start_x_cord][start_y_cord] = '5'
+            #map[end_x_cord][end_y_cord] = '6'
             break
     return start_x_cord, start_y_cord, end_x_cord, end_y_cord
 
