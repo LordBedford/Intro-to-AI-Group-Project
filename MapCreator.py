@@ -1,6 +1,63 @@
 import random
 from copy import copy, deepcopy
 
+def getCoordinates(map):
+    #Get start and end coordinates.
+    start_x_cord = 0
+    start_y_cord = 0
+    end_x_cord = 0
+    end_y_cord = 0
+    while 1:
+        while 1:
+            rand = random.randint(1,4)
+            if rand == 1:
+                start_x_cord = random.randint(0,120-1)
+                start_y_cord = random.randint(0,20)
+                if map[start_x_cord][start_y_cord] != '0':
+                    break
+            elif rand == 2:
+                start_x_cord = random.randint(0,20)
+                start_y_cord = random.randint(0,160-1)
+                if map[start_x_cord][start_y_cord] != '0':
+                    break
+            elif rand == 3:
+                start_x_cord = random.randint(0,120-1)
+                start_y_cord = random.randint(160-21,160-1)
+                if map[start_x_cord][start_y_cord] != '0':
+                    break
+            else:
+                start_x_cord = random.randint(120-21,120-1)
+                start_y_cord = random.randint(0,160-1)
+                if map[start_x_cord][start_y_cord] != '0':
+                    break
+        while 1:
+            rand = random.randint(1,4)
+            if rand == 1:
+                end_x_cord = random.randint(0,120-1)
+                end_y_cord = random.randint(0,20)
+                if map[end_x_cord][end_y_cord] != '0':
+                    break
+            elif rand == 2:
+                end_x_cord = random.randint(0,20)
+                end_y_cord = random.randint(0,160-1)
+                if map[end_x_cord][end_y_cord] != '0':
+                    break
+            elif rand == 3:
+                end_x_cord = random.randint(0,120-1)
+                end_y_cord = random.randint(160-21,160-1)
+                if map[end_x_cord][end_y_cord] != '0':
+                    break
+            else:
+                end_x_cord = random.randint(120-21,120-1)
+                end_y_cord = random.randint(0,160-1)
+                if map[end_x_cord][end_y_cord] != '0':
+                    break
+        if abs(start_x_cord - end_x_cord) > 100 or abs(start_y_cord - end_y_cord) > 100:
+            map[start_x_cord][start_y_cord] = '5'
+            map[end_x_cord][end_y_cord] = '6'
+            break
+    return start_x_cord, start_y_cord, end_x_cord, end_y_cord
+
 #Function to generate a map
 def mapGen(rows,cols):
     #Initiate map with all 1 chars for regular unblocked cell
@@ -185,59 +242,5 @@ def mapGen(rows,cols):
         if map[x_cord][y_cord] != '3' and map[x_cord][y_cord] != '4' and map[x_cord][y_cord] != '0':
             map[x_cord][y_cord] = '0'
             imp += 1
-    #Get start and end coordinates.
-    start_x_cord = 0
-    start_y_cord = 0
-    end_x_cord = 0
-    end_y_cord = 0
-    while 1:
-        while 1:
-            rand = random.randint(1,4)
-            if rand == 1:
-                start_x_cord = random.randint(0,rows-1)
-                start_y_cord = random.randint(0,20)
-                if map[start_x_cord][start_y_cord] != '0':
-                    break
-            elif rand == 2:
-                start_x_cord = random.randint(0,20)
-                start_y_cord = random.randint(0,cols-1)
-                if map[start_x_cord][start_y_cord] != '0':
-                    break
-            elif rand == 3:
-                start_x_cord = random.randint(0,rows-1)
-                start_y_cord = random.randint(cols-21,cols-1)
-                if map[start_x_cord][start_y_cord] != '0':
-                    break
-            else:
-                start_x_cord = random.randint(rows-21,rows-1)
-                start_y_cord = random.randint(0,cols-1)
-                if map[start_x_cord][start_y_cord] != '0':
-                    break
-        while 1:
-            rand = random.randint(1,4)
-            if rand == 1:
-                end_x_cord = random.randint(0,rows-1)
-                end_y_cord = random.randint(0,20)
-                if map[end_x_cord][end_y_cord] != '0':
-                    break
-            elif rand == 2:
-                end_x_cord = random.randint(0,20)
-                end_y_cord = random.randint(0,cols-1)
-                if map[end_x_cord][end_y_cord] != '0':
-                    break
-            elif rand == 3:
-                end_x_cord = random.randint(0,rows-1)
-                end_y_cord = random.randint(cols-21,cols-1)
-                if map[end_x_cord][end_y_cord] != '0':
-                    break
-            else:
-                end_x_cord = random.randint(rows-21,rows-1)
-                end_y_cord = random.randint(0,cols-1)
-                if map[end_x_cord][end_y_cord] != '0':
-                    break
-        if abs(start_x_cord - end_x_cord) > 100 or abs(start_y_cord - end_y_cord) > 100:
-            map[start_x_cord][start_y_cord] = '5'
-            map[end_x_cord][end_y_cord] = '6'
-            break
     return map
 mapGen(120,160)
