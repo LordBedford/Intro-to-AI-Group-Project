@@ -1,5 +1,7 @@
 from tkinter import *
 import random
+from tkinter import messagebox
+
 import numpy as np
 import MapCreator
 import os
@@ -15,19 +17,22 @@ class MapMaker:
         self.c.pack()
         self.colors = ["black", "green", "orange", "blue", "white", "yellow", "red"]
         self.button = Button(self.window, text='New Map', width=25, command=self.newMap)
-        self.button2 = Button(self.window, text='Save', width=25, command=self.save)
-        self.button3 = Button(self.window, text='Load', width=25, command=self.load)
+        #self.button2 = Button(self.window, text='Save', width=25, command=self.save)
+        self.button3 = Button(self.window, text='Load Map Number ->', width=25, command=self.load)
         self.button.place(x=0, y=0)
-        self.button2.place(x=200, y=0)
+        #self.button2.place(x=200, y=0)
         self.button3.place(x=400, y=0)
+        self.loadbox = Text(self.window, height = 1, width = 25)
+        self.loadbox.place(x=600,y=0)
         self.savefile = open("maps.txt", 'ab')
+
         self.saves = 0
 
     def updatewindow(self):
         print("UPDATING")
         for i in range(len(self.map)):
             for j in range(len(self.map[i])):
-                print(i, " ", j)
+               # print(i, " ", j)
                 (self.c.create_rectangle(5 * (i + 2), 5 * (j + 8), 5 * (i + 3), 5 * (j + 9),
                                          fill=self.colors[int(self.map[i][j])],
                                          outline='black'))
@@ -45,16 +50,18 @@ class MapMaker:
         self.saves = self.saves + 1
 
     def load(self):
+        getMap = (self.loadbox.get("1.0","end"))
+        getMap = int(getMap.strip())
+        print(getMap)
         tempCol = []
-        tempFile = open("maps.txt", 'r')
+        tempFile = open("maps/map%s.txt" % (getMap-1), 'r')
         i = 1
         for lines in tempFile.readlines():
-           # if i > ((120 * (self.saves - 1)) and i <= (120 * self.saves)):
             lines = lines.strip()
             tempRow = []
             for num in lines:
                 if not (num == ' '):
-                      tempRow.append(num)
+                    tempRow.append(num)
             tempCol.append(tempRow)
 
             i += 1
