@@ -1,5 +1,4 @@
 import math
-import random
 
 
 # This class represents a node
@@ -26,16 +25,15 @@ class Node:
 
 
 # A*
-def a_star(map):
+# Takes in the map and start and goal points
+def a_star(map, start, goal):
     # Lists for open and closed nodes
     open = []
     closed = []
 
     # Create a start and goal node
-    start = (start_x_cord, start_y_cord)
-    end = (end_x_cord, end_y_cord)
     start_node = Node(start, None)
-    goal_node = Node(end, None)
+    goal_node = Node(goal, None)
 
     # Add start node to open list
     open.append(start_node)
@@ -200,7 +198,8 @@ def a_star(map):
 
 
 # Weighted A*
-def weighted_a_star(map):
+# Takes in the map and the start and goal points
+def weighted_a_star(map, start, goal):
     # Lists for open and closed nodes
     open = []
     closed = []
@@ -209,10 +208,8 @@ def weighted_a_star(map):
     weight = 1.5
 
     # Create a start and goal node
-    start = (start_x_cord, start_y_cord)
-    end = (end_x_cord, end_y_cord)
     start_node = Node(start, None)
-    goal_node = Node(end, None)
+    goal_node = Node(goal, None)
 
     # Add start node to open list
     open.append(start_node)
@@ -322,7 +319,7 @@ def weighted_a_star(map):
                         # Neighbor.g is the current cost from start node + 1.5
                         neighbor.g = current_node.g + 1.5
                         neighbor.h = math.sqrt((neighbor.position[0] - goal_node.position[0]) ** 2 + (
-                                 neighbor.position[1] - goal_node.position[1]) ** 2)
+                                neighbor.position[1] - goal_node.position[1]) ** 2)
                         neighbor.f = neighbor.g + (weight * neighbor.h)
 
                 else:
@@ -381,3 +378,4 @@ def add_open(open, neighbor):
         if neighbor == node and neighbor.f >= node.f:
             return False
     return True
+
