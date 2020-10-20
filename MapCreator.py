@@ -248,4 +248,3 @@ def mapGen(rows,cols):
             map[x_cord][y_cord] = '0'
             imp += 1
     return map, HTTList
-mapGen(120,160)
