@@ -25,14 +25,25 @@ class MapMaker:
         self.button3 = Button(self.window, text='Load Map type and number ->', width=25, command=self.load)
         self.button.place(x=0, y=0)
         self.button3.place(x=400, y=0)
-        self.button2 = Button(self.window, text='Run Astar Search', width=25, command=self.getPaths)
+        self.button2 = Button(self.window, text='Run Astar Search', width=25, command=self.getAstar)
         self.button2.place(x=800, y=100)
+        self.button4 = Button(self.window, text='Run Weighted Astar Search', width=25, command=self.getWeightedAstar)
+        self.button4.place(x=800, y=200)
+        self.button5 = Button(self.window, text='Run Sequential Heuristic Search', width=25, command=self.getSequentialHeuristic)
+        self.button5.place(x=800, y=300)
+        self.button6 = Button(self.window, text='Run Uniform Cost Search', width=25, command=self.getUniformCost)
+        self.button6.place(x=800, y=400)
         #initializes the text fields on the window
         self.loadbox = Text(self.window, height = 1, width = 25)
         self.loadbox.place(x=600,y=0)
         self.loadbox2 = Text(self.window, height=1, width=25)
         self.loadbox2.place(x=800, y=0)
-        self.savefile = open("maps.txt", 'ab')
+        self.weightedastar = Text(self.window, height=1, width=25)
+        self.weightedastar.place(x = 800, y = 275)
+        self.heuristic1 = Text(self.window, height=1, width=25)
+        self.heuristic1.place(x=800, y=375)
+        self.heuristic2 = Text(self.window, height=1, width=25)
+        self.heuristic2.place(x=1000, y=375)
 
         self.window.bind("<Button-1>", self.mouseHandler)
 
@@ -52,6 +63,13 @@ class MapMaker:
         self.labelH.place(x=1200, y=200)
         self.labelF = Label(self.window, textvariable = self.labelFText)
         self.labelF.place(x=1200, y=300)
+        self.labelweight1 = Label(self.window, text = "Astar Weight")
+        self.labelweight1.place(x=800, y=250)
+        self.labelweight2 = Label(self.window, text =  "Heuristic Weight 1")
+        self.labelweight2.place(x=800, y=350)
+        self.labelweight3 = Label(self.window, text ="Heuristic Weight 2")
+        self.labelweight3.place(x=1000, y=350)
+
         self.start = []
         self.end = []
 
@@ -149,9 +167,46 @@ class MapMaker:
                 self.labelGText.set(("G Value:", self.map[x][y]))
                 self.labelHText.set(("H Value:", self.map[x][y]))
                 self.labelFText.set(("F Value:", self.map[x][y]))
-    def getPaths(self):
+    def getAstar(self):
+        self.updatewindow()
         print(self.start,self.end)
         path = astarSearch.a_star(self.map, (self.start[0],self.start[1]),(self.end[0],self.end[1]),120,160)
+        print(path)
+        for i in path[0]:
+            print(i[0],i[1])
+            (self.c.create_rectangle(5 * (i[0] + 2), 5 * (i[1] + 8), 5 * (i[0] + 3), 5 * (i[1] + 9),
+            fill="Pink",
+            outline='black'))
+    def getWeightedAstar(self):
+        self.updatewindow()
+        getWeight1 = (self.weightedastar.get("1.0", "end"))
+        getWeight1 = int(getWeight1.strip())
+        print(self.start,self.end)
+        path = astarSearch.weighted_a_star(self.map, (self.start[0],self.start[1]),(self.end[0],self.end[1]),getWeight1,120,160)#Add UI Element Later
+        print(path)
+        for i in path[0]:
+            print(i[0],i[1])
+            (self.c.create_rectangle(5 * (i[0] + 2), 5 * (i[1] + 8), 5 * (i[0] + 3), 5 * (i[1] + 9),
+            fill="Pink",
+            outline='black'))
+    def getSequentialHeuristic(self):
+        self.updatewindow()
+        getWeight1 = (self.heuristic1.get("1.0", "end"))
+        getWeight1 = int(getWeight1.strip())
+        getWeight2 = (self.heuristic2.get("1.0", "end"))
+        getWeight2 = int(getWeight2.strip())
+        print(self.start,self.end)
+        path = astarSearch.sequential_heuristic(self.map, (self.start[0],self.start[1]),(self.end[0],self.end[1]),getWeight1,getWeight2,120,160)
+        print(path)
+        for i in path[0]:
+            print(i[0],i[1])
+            (self.c.create_rectangle(5 * (i[0] + 2), 5 * (i[1] + 8), 5 * (i[0] + 3), 5 * (i[1] + 9),
+            fill="Pink",
+            outline='black'))
+    def getUniformCost(self):
+        self.updatewindow()
+        print(self.start,self.end)
+        path = astarSearch.uniform_cost_search(self.map, (self.start[0],self.start[1]),(self.end[0],self.end[1]),120,160)
         print(path)
         for i in path[0]:
             print(i[0],i[1])
