@@ -15,7 +15,7 @@ class MapMaker:
         self.labels = []
         self.c = Canvas(self.window, width=1500, height=900)
         self.c.pack()
-        self.colors = ["black", "green", "orange", "blue", "white", "purple", "red"]
+        self.colors = ["black", "green", "orange", "blue", "white", "cyan", "red"]
         self.button = Button(self.window, text='New Map', width=25, command=self.newMap)
         #self.button2 = Button(self.window, text='Save', width=25, command=self.save)
         self.button3 = Button(self.window, text='Load Map type and number ->', width=25, command=self.load)
@@ -27,7 +27,7 @@ class MapMaker:
         self.loadbox2 = Text(self.window, height=1, width=25)
         self.loadbox2.place(x=800, y=0)
         self.savefile = open("maps.txt", 'ab')
-
+        self.window.bind("<Button-1>", self.mouseHandler)
         self.saves = 0
 
     def updatewindow(self):
@@ -85,3 +85,12 @@ class MapMaker:
                 (self.c.create_rectangle(5 * (i + 2), 5 * (j + 8), 5 * (i + 3), 5 * (j + 9),
                                          fill=self.colors[int(self.map[i][j])],
                                          outline='black'))
+
+    def mouseHandler(self,event):
+        print("Clicked at:", event.x, event.y)
+        if 10 < event.x < 610:
+            if 40 < event.y < 840:
+                x = int(((event.x - (event.x % 5))-10)/5)
+                y = int(((event.y - (event.y % 5))-40)/5)
+                print(self.map[x][y])
+
