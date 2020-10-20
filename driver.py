@@ -11,8 +11,8 @@ while(run):
 
 
 
-#mapTuple = MapCreator.mapGen(120,160)
-#map = mapTuple[0]
-#start = (0,0)
-#goal = (100,100)
-#print(a_star(map, start, goal))
+mapTuple = MapCreator.mapGen(120,160)
+map = mapTuple[0]
+start = (11,157)
+goal = (119,12)
+print(a_star(map, start, goal))
