@@ -6,6 +6,7 @@ from tkinter import messagebox
 
 import numpy as np
 import MapCreator
+import astarSearch
 import os
 
 
@@ -24,6 +25,8 @@ class MapMaker:
         self.button3 = Button(self.window, text='Load Map type and number ->', width=25, command=self.load)
         self.button.place(x=0, y=0)
         self.button3.place(x=400, y=0)
+        self.button2 = Button(self.window, text='Run Astar Search', width=25, command=self.getPaths)
+        self.button2.place(x=800, y=100)
         #initializes the text fields on the window
         self.loadbox = Text(self.window, height = 1, width = 25)
         self.loadbox.place(x=600,y=0)
@@ -49,6 +52,8 @@ class MapMaker:
         self.labelH.place(x=1200, y=200)
         self.labelF = Label(self.window, textvariable = self.labelFText)
         self.labelF.place(x=1200, y=300)
+        self.start = []
+        self.end = []
 
     #Redraws the map based on the current self.map value
     def updatewindow(self):
@@ -89,6 +94,31 @@ class MapMaker:
                     if not (num == ' '):
                         tempRow.append(num)
                 tempCol.append(tempRow)
+            elif i == 1:
+                tempVal = 0
+                lines = lines.strip()
+                tempRow = []
+                for num in lines:
+                    if not (num == ' '):
+                        tempVal = tempVal*10 + int(num)
+                    else:
+                        tempRow.append(tempVal)
+                        tempVal = 0
+                print(tempRow)
+                tempRow.append(tempVal)
+                self.start = tempRow
+            elif i == 2:
+                tempVal = 0
+                lines = lines.strip()
+                tempRow = []
+                for num in lines:
+                    if not (num == ' '):
+                        tempVal = tempVal * 10 + int(num)
+                    else:
+                        tempRow.append(tempVal)
+                        tempVal = 0
+                tempRow.append(tempVal)
+                self.end = tempRow
 
             i += 1
 
@@ -109,7 +139,7 @@ class MapMaker:
                                          outline='black'))
 
     #Handles click events from the mouse
-    def mouseHandler(self,event):
+    def mouseHandler(self, event):
         print("Clicked at:", event.x, event.y)
         if 10 < event.x < 610:
             if 40 < event.y < 840:
@@ -119,4 +149,12 @@ class MapMaker:
                 self.labelGText.set(("G Value:", self.map[x][y]))
                 self.labelHText.set(("H Value:", self.map[x][y]))
                 self.labelFText.set(("F Value:", self.map[x][y]))
-
+    def getPaths(self):
+        print(self.start,self.end)
+        path = astarSearch.a_star(self.map, (self.start[0],self.start[1]),(self.end[0],self.end[1]),120,160)
+        print(path)
+        for i in path[0]:
+            print(i[0],i[1])
+            (self.c.create_rectangle(5 * (i[0] + 2), 5 * (i[1] + 8), 5 * (i[0] + 3), 5 * (i[1] + 9),
+            fill="Pink",
+            outline='black'))

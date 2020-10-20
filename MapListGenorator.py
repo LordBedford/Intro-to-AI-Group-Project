@@ -29,7 +29,7 @@ for i in range(5):
         print(posx1, posy1)
         print(posx2, posy2)
         for x in range(len(hard_terrain)):
-            print("Hard Terrain:", hard_terrain[x])
+            print(hard_terrain[x][0], hard_terrain[x][1])
         for x in range(len(mapTemp)):
             for y in range(len(mapTemp[i])):
                 print(mapTemp[x][y], end=" ")
