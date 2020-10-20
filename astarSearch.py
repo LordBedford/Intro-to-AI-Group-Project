@@ -1,5 +1,6 @@
-import math
+#Brian Tran
 
+import math
 
 # This class represents a node
 class Node:
