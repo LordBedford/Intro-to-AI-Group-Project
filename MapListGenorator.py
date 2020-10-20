@@ -16,12 +16,6 @@ def mapHelper(x1,y1,x2,y2,array):
         ret.append(temp)
     return ret
 
-
-
-
-
-
-
 for i in range(5):
     map, hard_terrain = MapCreator.mapGen(120, 160)
     for j in range(10):
