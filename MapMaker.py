@@ -38,6 +38,12 @@ class MapMaker:
         self.loadbox.place(x=600,y=0)
         self.loadbox2 = Text(self.window, height=1, width=25)
         self.loadbox2.place(x=800, y=0)
+        self.weightedastar = Text(self.window, height=1, width=25)
+        self.weightedastar.place(x = 800, y = 275)
+        self.heuristic1 = Text(self.window, height=1, width=25)
+        self.heuristic1.place(x=800, y=375)
+        self.heuristic2 = Text(self.window, height=1, width=25)
+        self.heuristic2.place(x=1000, y=375)
 
         self.window.bind("<Button-1>", self.mouseHandler)
 
@@ -57,6 +63,13 @@ class MapMaker:
         self.labelH.place(x=1200, y=200)
         self.labelF = Label(self.window, textvariable = self.labelFText)
         self.labelF.place(x=1200, y=300)
+        self.labelweight1 = Label(self.window, text = "Astar Weight")
+        self.labelweight1.place(x=800, y=250)
+        self.labelweight2 = Label(self.window, text =  "Heuristic Weight 1")
+        self.labelweight2.place(x=800, y=350)
+        self.labelweight3 = Label(self.window, text ="Heuristic Weight 2")
+        self.labelweight3.place(x=1000, y=350)
+
         self.start = []
         self.end = []
 
@@ -166,8 +179,10 @@ class MapMaker:
             outline='black'))
     def getWeightedAstar(self):
         self.updatewindow()
+        getWeight1 = (self.weightedastar.get("1.0", "end"))
+        getWeight1 = int(getWeight1.strip())
         print(self.start,self.end)
-        path = astarSearch.weighted_a_star(self.map, (self.start[0],self.start[1]),(self.end[0],self.end[1]),1.25,120,160)#Add UI Element Later
+        path = astarSearch.weighted_a_star(self.map, (self.start[0],self.start[1]),(self.end[0],self.end[1]),getWeight1,120,160)#Add UI Element Later
         print(path)
         for i in path[0]:
             print(i[0],i[1])
@@ -176,8 +191,12 @@ class MapMaker:
             outline='black'))
     def getSequentialHeuristic(self):
         self.updatewindow()
+        getWeight1 = (self.heuristic1.get("1.0", "end"))
+        getWeight1 = int(getWeight1.strip())
+        getWeight2 = (self.heuristic2.get("1.0", "end"))
+        getWeight2 = int(getWeight2.strip())
         print(self.start,self.end)
-        path = astarSearch.sequential_heuristic(self.map, (self.start[0],self.start[1]),(self.end[0],self.end[1]),1,2,120,160)#
+        path = astarSearch.sequential_heuristic(self.map, (self.start[0],self.start[1]),(self.end[0],self.end[1]),getWeight1,getWeight2,120,160)
         print(path)
         for i in path[0]:
             print(i[0],i[1])
