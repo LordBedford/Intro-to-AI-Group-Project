@@ -1,3 +1,5 @@
+#Andrew Cater
+
 import MapCreator
 import numpy as np
 import sys

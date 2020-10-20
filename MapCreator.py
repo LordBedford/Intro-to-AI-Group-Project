@@ -1,3 +1,5 @@
+#Peter Marchese
+
 import random
 from copy import copy, deepcopy
 
