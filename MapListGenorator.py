@@ -30,10 +30,10 @@ for i in range(5):
         savefile = open("maps/map%s/map%s.txt" %(i, j), 'w')
         ogOutPut = sys.stdout
         sys.stdout = savefile
-        print("Start Coordinates:", posx1, posy1)
-        print("End Coordinates:", posx2, posy2)
+        print(posx1, posy1)
+        print(posx2, posy2)
         for x in range(len(hard_terrain)):
-            print("Hard Terrain:", hard_terrain[x])
+            print(hard_terrain[x][0], hard_terrain[x][1])
         for x in range(len(mapTemp)):
             for y in range(len(mapTemp[i])):
                 print(mapTemp[x][y], end=" ")
